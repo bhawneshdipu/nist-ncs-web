@@ -1,0 +1,2 @@
+gd extenstion enable
+

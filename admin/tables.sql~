@@ -1,0 +1,57 @@
+CREATE TABLE IF NOT EXISTS `user_table` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `f_name`varchar(30) NOT NULL,
+  `l_name` varchar(30) NOT NULL,
+  `user_name`varchar(30) NOT NULL UNIQUE ,
+  `user_pass` varchar(30) NOT NULL,
+  `user_email` varchar(30) NOT NULL UNIQUE ,
+  `user_nist_id` VARCHAR(10) NOT NULL,
+  `user_pin` VARCHAR(4) NOT NULL,
+  `mobile` VARCHAR (10) NOT NULL,
+  `user_account_type` varchar(30) NOT NULL,
+  `user_gender` varchar(10) NOT NULL,
+  `user_image` VARCHAR(30) NOT NULL DEFAULT 'profile.jpg',
+  `guide_id` VARCHAR(30) NOT NULL REFERENCES guide_table (`guide_id`), 
+   `user_priority` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`user_id`)
+
+)  ;
+
+CREATE TABLE IF NOT EXISTS `user_messages` (
+  `id`       INT(12)      NOT NULL  AUTO_INCREMENT,
+  `sender`   VARCHAR(30)  NOT NULL REFERENCES user_table (`user_name`),
+  `receiver` VARCHAR(30)  NOT NULL REFERENCES user_table (`user_name`),
+  `msg`      VARCHAR(512) NOT NULL,
+  `msg_time` DATETIME(1)      NOT NULL,
+  PRIMARY KEY (`id`)
+);
+CREATE TABLE IF NOT EXISTS `chatters` (
+  `name` VARCHAR(30) NOT NULL  REFERENCES user_table(`user_name`),
+  `seen` DATETIME(1),
+  PRIMARY KEY (`name`)
+);
+CREATE TABLE  IF NOT EXISTS  `user_timeline` (
+  `id` INT(12) NOT NULL  AUTO_INCREMENT PRIMARY KEY ,
+  `sender_name` VARCHAR(30) NOT NULL  REFERENCES `user_table`(user_name),
+  `sender_post` VARCHAR(512) NOT NULL ,
+  `post_time` DATETIME(1)
+);
+
+CREATE TABLE  IF NOT EXISTS `guide_table`  (
+ `guide_id` INT(10) NOT NULL AUTO_INCREMENT , 
+ `guide_teacher` VARCHAR(30) NOT NULL ,
+ `guide_student` VARCHAR(30) NOT NULL ,
+ PRIMARY KEY (`guide_id`),
+ UNIQUE (`guide_teacher`),
+ UNIQUE (`guide_student`)
+);
+
+CREATE TABLE IF NOT EXISTS `admin_table` (
+ `admin_id` INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+ `admin_name` VARCHAR(30) NOT NULL ,
+ `admin_pass` VARCHAR(30) NOT NULL ,
+ `admin_email` VARCHAR(30) NOT NULL ,
+ `admin_mobile` VARCHAR(10) NOT NULL ,
+ `admin_master` VARCHAR(30) NOT NULL 
+);
+INSERT INTO `admin_table` (`admin_id`, `admin_name`, `admin_pass`, `admin_email`, `admin_mobile`, `admin_master`) VALUES (NULL, 'admin', 'admin', 'admin@gmail.com', '7205772214', 'dipu')
